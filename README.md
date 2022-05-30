@@ -26,6 +26,7 @@
 - Compound whitelists tokens and can avoid ERC20 tokens with unusual behavior. If a fork of compound does not whitelist tokens, issues can exist with [fee-on-transfer tokens](https://github.com/d-xo/weird-erc20#fee-on-transfer) among others.
 
 ## Proxies
+<!-- markdown-link-check-disable-next-line -->
 - UUPS proxies MUST be initialized after deployment. Forgetting to initialize the proxy led to [the first $10 million bug](https://medium.com/immunefi/wormhole-uninitialized-proxy-bugfix-review-90250c41a43a) from Immunefi and [many other past bugs](https://twitter.com/transmissions11/status/1527699663322697728).
 
 ## OpenZeppelin Upgradeable imports
