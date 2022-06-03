@@ -11,12 +11,21 @@
 ## transferFrom is used
 - If tokens are transferred from a contract address, that contract must approve the tokens before the transferFrom is called, otherwise it will revert
 
+## Overflows
+- Safe math in Solidity 0.8.X does not protect against integer casting overflows and bitshift overflows
+
+## Gas griefing / denial of service
+- Check all `require` and `revert` logic in case of unintentional reverts causing the user loss of gas
+
+## ecrecover
+- Standard solidity ecrecover function is used without checking if the result is the zero address. Must check for zero address or use OZ `recover` from ECDSA library.
+
 ## Access controls
 - If any access controls are used (often in the form of modifiers) check functions that do not have any modifier to see if the modifier may have been forgotten.
 
 ## External price data is used
 - If spot price of a liquidity pool is used... [just no](https://shouldiusespotpriceasmyoracle.com/)
-- Is the oracle data sufficiently validated?
+- Chainlink oracle data may be stale. The roundId and timestamp should be checked.
 
 ## AMM/DEX
 - Any purchase or swap function should have slippage protection. This is normally a user-specified function argument.
