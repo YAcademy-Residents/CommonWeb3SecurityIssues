@@ -20,6 +20,13 @@
 ## ecrecover
 - Standard solidity ecrecover function is used without checking if the result is the zero address. Must check for zero address or use OZ `recover` from ECDSA library.
 
+## ERC20
+- If an ERC20 token list is used it must consider double entry point tokens, with past issues of this type [here](https://medium.com/chainsecurity/trueusd-compound-vulnerability-bc5b696d29e2) and [here](https://forum.balancer.fi/t/medium-severity-bug-found/3161)
+
+## ERC721
+- The ERC721 tokenId value must be unique. If the tokenId value is not a simple incrementing counter and instead uses a formula to calculate the tokenId, duplicate values may occur and lead to a revert
+- If safeMint is used, check for reentrancy on the callback hook
+
 ## Access controls
 - If any access controls are used (often in the form of modifiers) check functions that do not have any modifier to see if the modifier may have been forgotten.
 
@@ -37,6 +44,7 @@
 ## Proxies
 <!-- markdown-link-check-disable-next-line -->
 - UUPS proxies MUST be initialized after deployment. Forgetting to initialize the proxy led to [the first $10 million bug](https://medium.com/immunefi/wormhole-uninitialized-proxy-bugfix-review-90250c41a43a) from Immunefi and [many other past bugs](https://twitter.com/transmissions11/status/1527699663322697728).
+- State variable layout must be followed when delegatecall is used, otherwise this [leads to problems](https://solidity-by-example.org/hacks/delegatecall)
 
 ## OpenZeppelin Upgradeable imports
 - Many OpenZeppelin upgradeable contracts need to be initialized in the importing contract's constructor.
