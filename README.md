@@ -36,6 +36,7 @@
 
 ## AMM/DEX
 - Any purchase or swap function should have slippage protection. This is normally a user-specified function argument.
+- If a contract facilitates deposits into a DEX like Uniswap and tracks user positions with shares, the first deposit into this pair of the protocol [could be frontrun](https://media.dedaub.com/latent-bugs-in-billion-plus-dollar-code-c2e67a25b689#3b16)
 
 ## Compound forks
 - Compound does not strictly follow the checks-effects-interactions pattern to avoid reentrancy. This can lead to reentrancy problems [if tokens with callbacks](https://twitter.com/Hacxyk/status/1520370424680304640) (ERC721, ERC777, etc.) are used.
@@ -43,8 +44,9 @@
 
 ## Proxies
 <!-- markdown-link-check-disable-next-line -->
-- UUPS proxies MUST be initialized after deployment. Forgetting to initialize the proxy led to [the first $10 million bug](https://medium.com/immunefi/wormhole-uninitialized-proxy-bugfix-review-90250c41a43a) from Immunefi and [many other past bugs](https://twitter.com/transmissions11/status/1527699663322697728).
-- State variable layout must be followed when delegatecall is used, otherwise this [leads to problems](https://solidity-by-example.org/hacks/delegatecall)
+- UUPS proxies MUST be initialized after deployment. Forgetting to initialize the proxy led to [the first $10 million bug](https://medium.com/immunefi/wormhole-uninitialized-proxy-bugfix-review-90250c41a43a) from Immunefi and [many other past bugs](https://proxies.yacademy.dev/pages/security-guide/#bug-bounties).
+- State variable layout must be followed when delegatecall is used, otherwise this [leads to problems](https://proxies.yacademy.dev/pages/security-guide/#storage-collision-vulnerability)
+- Full list of common proxy bugs is at [proxies.yacademy.dev](https://proxies.yacademy.dev/pages/security-guide/)
 
 ## OpenZeppelin Upgradeable imports
 - Many OpenZeppelin upgradeable contracts need to be initialized in the importing contract's constructor.
