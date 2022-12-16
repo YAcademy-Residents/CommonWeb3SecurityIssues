@@ -1,8 +1,9 @@
 # Common Web3 Security Issues
 
 ## External calls
-- Check for reentrancy risks
+- Check for [reentrancy risks](https://blog.pessimistic.io/reentrancy-attacks-on-smart-contracts-distilled-7fed3b04f4b6)
 - Check whether the external call specifies the 1. the proper function and 2. the proper function arguments in the proper order for that function.
+- Does the external address have this function, or any contract at all? A call to an address with no bytecode will not revert, and a contract with a fallback function will call the fallback function when an undeclared function is called ([Dedaub Phantom Functions research](https://media.dedaub.com/phantom-functions-and-the-billion-dollar-no-op-c56f062ae49f)).
 
 ## Swap is performed
 - Check for frontrunning and sandwich attack of the swap. This can happen when interacting with any liquidity pool (Uniswap, Sushi, Curve, Balancer, etc.)
@@ -21,6 +22,7 @@
 - Standard solidity ecrecover function is used without checking if the result is the zero address. Must check for zero address or use OZ `recover` from ECDSA library.
 
 ## ERC20
+- If any ERC20 token is supported by the protocol (meaning tokens are not whitelisted), check for [weird ERC20 edge cases](https://github.com/d-xo/weird-erc20)
 - If an ERC20 token list is used it must consider double entry point tokens, with past issues of this type [here](https://medium.com/chainsecurity/trueusd-compound-vulnerability-bc5b696d29e2) and [here](https://forum.balancer.fi/t/medium-severity-bug-found/3161)
 
 ## ERC721
